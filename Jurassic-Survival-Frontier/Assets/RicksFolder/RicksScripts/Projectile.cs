@@ -5,6 +5,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     public int damage = 10; // Amount of damage this projectile will deal
+    private int timeToDestroy = 1000;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -13,7 +14,10 @@ public class Projectile : MonoBehaviour
         {
             enemyHealth.TakeDamage(damage);
         }
-        Destroy(gameObject); // Destroy the projectile upon collision
+        if (enemyHealth != null && enemyHealth.getCurrentHealth() <= 0)
+        {
+            Destroy(gameObject); // Destroy the projectile upon collision
+        }
     }
 
     // Optional: Use this if your projectile's collider is set as a trigger
@@ -24,6 +28,19 @@ public class Projectile : MonoBehaviour
         {
             enemyHealth.TakeDamage(damage);
         }
-        Destroy(gameObject); // Destroy the projectile upon collision
+        if (enemyHealth != null && enemyHealth.getCurrentHealth() <= 0)
+        {
+            Destroy(gameObject); // Destroy the projectile upon collision
+        }
+    }
+
+    void Update()
+    {
+        timeToDestroy--;
+        Debug.Log(timeToDestroy);
+        if(timeToDestroy <= 0)
+        {
+            Destroy(this.gameObject);
+        }
     }
 }
