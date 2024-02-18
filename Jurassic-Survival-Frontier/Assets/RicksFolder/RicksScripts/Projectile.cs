@@ -37,7 +37,6 @@ public class Projectile : MonoBehaviour
     void Update()
     {
         timeToDestroy--;
-        Debug.Log(timeToDestroy);
         if(timeToDestroy <= 0)
         {
             Destroy(this.gameObject);
