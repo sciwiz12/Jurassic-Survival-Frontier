@@ -11,13 +11,19 @@ public class PlayerMovement : MonoBehaviour
     private float jumpHeight = 1.0f;
     private float gravityValue = -9.81f;
 
+    private StaminaManager staminaManager;
+
     private void Start()
     {
         controller = GetComponent<CharacterController>();
+        staminaManager = GetComponent<StaminaManager>();
+        //staminaManager.MaxStamina = 100;
+        //Debug.Log(staminaManager.MaxStamina);
     }
 
     void Update()
     {
+        #region Movement
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
         {
@@ -40,5 +46,19 @@ public class PlayerMovement : MonoBehaviour
 
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
+        #endregion
+
+        #region Stamina
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            staminaManager.StaminaReduceAction(staminaManager.staminaCost = 10);
+            staminaManager.isActionPerformed = false;
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            staminaManager.StaminaReduceAction(staminaManager.staminaCost = 5);     
+            staminaManager.isActionPerformed = false;
+        }
+        #endregion
     }
 }

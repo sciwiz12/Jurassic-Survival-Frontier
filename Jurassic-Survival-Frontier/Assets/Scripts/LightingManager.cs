@@ -10,6 +10,7 @@ public class LightingManager : MonoBehaviour
     [SerializeField] private LightingPreset Preset;
     [Header("Variables")]
     [SerializeField, Range(0, 24)] private float TimeOfDay;
+    public bool isNight;
 
     private void Update()
     {
@@ -39,9 +40,16 @@ public class LightingManager : MonoBehaviour
         }
 
         if (TimeOfDay % 24 >= 5 && TimeOfDay % 24 <= 18)
+        {
+            isNight = false;
             Debug.Log("Day");
+        }
         else
+        {
+            isNight=true;
             Debug.Log("Night");
+        }
+
     }
 
     private void OnValidate()

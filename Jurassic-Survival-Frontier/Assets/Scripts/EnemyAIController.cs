@@ -54,7 +54,6 @@ public class EnemyAIController : MonoBehaviour
         {
             walkPointSet = false;
         }
-        Debug.Log("Patrolling");
     }
 
     private void SearchWalkPoint(){
@@ -67,13 +66,11 @@ public class EnemyAIController : MonoBehaviour
         {
             walkPointSet = true;
         }
-        Debug.Log("Searching");
     }
 
     private void Chasing() 
     {
         agent.SetDestination(player.position);
-        Debug.Log("Chasing");
     }
     
     private void Attacking() 
