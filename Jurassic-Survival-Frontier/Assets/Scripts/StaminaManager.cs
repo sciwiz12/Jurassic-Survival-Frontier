@@ -23,14 +23,15 @@ public class StaminaManager : MonoBehaviour
     [HideInInspector] public float staminaCost;
     private float malusSleep = 1f;
     public bool needToSleep;
+    public bool isSleeping;
     private LightingManager lightingManager;
     #endregion
 
 
     private void Start()
     {
-        lightingManager = FindObjectOfType<LightingManager>();
         currentStamina = maxStamina;
+        lightingManager = FindObjectOfType<LightingManager>();
     }
 
     private void Update()
@@ -49,15 +50,6 @@ public class StaminaManager : MonoBehaviour
         if (needToSleep)
         {
             maxStamina -= malusSleep * Time.deltaTime;
-
-            if (maxStamina < 0)
-                maxStamina = 0;
-
-            currentStamina = maxStamina;
-        }
-        else
-        {
-            maxStamina = 100;
             currentStamina = maxStamina;
         }
 
@@ -65,8 +57,11 @@ public class StaminaManager : MonoBehaviour
         {
             needToSleep = true;
         }
-        else
+        if (isSleeping)
+        {
             needToSleep = false;
+            maxStamina += malusSleep * 2 * Time.deltaTime;
+        }
     }
 
     public float StaminaReduceAction(float staminaCost = 5)
