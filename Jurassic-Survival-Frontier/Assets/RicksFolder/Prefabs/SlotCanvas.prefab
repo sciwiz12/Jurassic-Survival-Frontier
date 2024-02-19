@@ -190,8 +190,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f8fd1af22db0234ca0362b00f033877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
   quantityText: {fileID: 1894691920828361796}
   itemImage: {fileID: 4161703999145539058}
+  ghostItemPrefab: {fileID: 3190464273476259221, guid: 506126de764a7814f870f41e6895024d, type: 3}
+  CanvasReference: {fileID: 2357266860850214777}
 --- !u!1 &3541815974817096635
 GameObject:
   m_ObjectHideFlags: 0
