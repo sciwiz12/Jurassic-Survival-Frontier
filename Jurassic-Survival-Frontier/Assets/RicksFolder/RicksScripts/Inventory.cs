@@ -38,7 +38,6 @@ public class Inventory : MonoBehaviour
         {
             itemQuantities.Add(itemToAdd, 1);
         }
-        Debug.Log($"{itemToAdd.itemName} quantity updated to {itemQuantities[itemToAdd]}");
         OnItemQuantityChanged?.Invoke(itemToAdd, itemQuantities[itemToAdd]);
         UpdateInventoryUI();
     }

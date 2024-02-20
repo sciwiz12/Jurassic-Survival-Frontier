@@ -16,7 +16,7 @@ public class InventorySlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
     void Awake()
     {
-        parentCanvas = GetComponentInParent<Canvas>();
+        parentCanvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
         if (parentCanvas == null)
         {
             // Optionally, use FindObjectOfType if GetComponentInParent doesn't suit your setup
@@ -37,34 +37,24 @@ public class InventorySlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     {
         if (item != null)
         {
-            Debug.Log($"Beginning to drag {item.itemName}");
             originalPosition = transform.position; // Remember the original slot position
 
             if (ghostItemPrefab != null)
             {
-                // Instantiate the ghost item at the slot's position
-                currentGhostItem = Instantiate(ghostItemPrefab, parentCanvas.transform, false);// Ensure it's parented to the canvas for correct positioning
+                currentGhostItem = Instantiate(ghostItemPrefab, parentCanvas.transform, false);
                 currentGhostItem.transform.position = transform.position;
 
-                // Assign the item's sprite to the ghost item's Image component
-                Image ghostImage = currentGhostItem.GetComponentInChildren<Image>(); // Use GetComponentInChildren in case the Image component is not directly on the prefab's root
+                Image ghostImage = currentGhostItem.GetComponentInChildren<Image>(true); // Adjusted to GetComponentInChildren and include inactive components
                 if (ghostImage != null)
                 {
                     ghostImage.sprite = itemImage.sprite;
-                    ghostImage.rectTransform.sizeDelta = itemImage.rectTransform.sizeDelta; // Copy size for consistency
+                    ghostImage.rectTransform.sizeDelta = itemImage.rectTransform.sizeDelta;
                 }
                 else
                 {
                     Debug.LogError("GhostItem prefab is missing an Image component.");
-                    // Consider destroying the ghost item if it cannot correctly represent the item
                     Destroy(currentGhostItem);
-                }
-
-                // Optionally, pass the InventorySlot reference to the ghost item
-                GhostItem ghostScript = currentGhostItem.GetComponent<GhostItem>();
-                if (ghostScript != null)
-                {
-                    ghostScript.originalSlot = this; // Pass this slot's reference to the ghost item
+                    return;
                 }
             }
         }
@@ -73,6 +63,8 @@ public class InventorySlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
             Debug.LogWarning("Attempted to drag an empty slot.");
         }
     }
+
+
 
 
 
@@ -90,7 +82,6 @@ public class InventorySlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("Drag ended");
         // Destroy the ghost item and reset any necessary states
         if (currentGhostItem != null)
         {
