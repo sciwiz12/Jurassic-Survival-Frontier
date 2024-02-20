@@ -12,7 +12,19 @@ public class InventorySlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     private Vector2 originalPosition; // To remember the slot's original position
     public GameObject ghostItemPrefab; // Assign a prefab with an Image component in the inspector
     private GameObject currentGhostItem;
-    public GameObject CanvasReference;
+    public Canvas parentCanvas;
+
+    void Awake()
+    {
+        parentCanvas = GetComponentInParent<Canvas>();
+        if (parentCanvas == null)
+        {
+            // Optionally, use FindObjectOfType if GetComponentInParent doesn't suit your setup
+            parentCanvas = FindObjectOfType<Canvas>();
+        }
+    }
+
+
 
     // Update to include item name and quantity in the display
     public void UpdateSlot(string itemName, int quantity)
@@ -31,7 +43,7 @@ public class InventorySlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
             if (ghostItemPrefab != null)
             {
                 // Instantiate the ghost item at the slot's position
-                currentGhostItem = Instantiate(ghostItemPrefab, CanvasReference.transform); // Ensure it's parented to the canvas for correct positioning
+                currentGhostItem = Instantiate(ghostItemPrefab, parentCanvas.transform, false);// Ensure it's parented to the canvas for correct positioning
                 currentGhostItem.transform.position = transform.position;
 
                 // Assign the item's sprite to the ghost item's Image component
@@ -98,17 +110,6 @@ public class InventorySlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
             if (ghostItem != null && ghostItem.originalSlot != null)
             {
                 InventorySlot originalSlot = ghostItem.originalSlot;
-
-                // Check if the original slot's item is not null
-                if (originalSlot.item == null)
-                {
-                    Debug.Log($"Dropped item {originalSlot.item.itemName} onto slot with item {(item != null ? item.itemName : "None")}");
-                    return;
-                }
-                else
-                {
-                    Debug.LogError("Dropped ghost item does not have a valid original slot or item.");
-                }
 
                 // Proceed with the logic using the item from the original slot
                 if (this.item == null || this.item.itemName == originalSlot.item.itemName)
