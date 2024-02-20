@@ -25,12 +25,12 @@ public class StaminaBarBehaviour : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    /*void Update()
     {
         if(playerMovement.isRuning)
         {
             StaminaBarValue -= RunCost;
             
         }
-    }
+    }*/
 }
