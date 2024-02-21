@@ -1,6 +1,3 @@
-using JetBrains.Rider.Unity.Editor;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 public class EnemyAIController : MonoBehaviour
@@ -26,6 +23,8 @@ public class EnemyAIController : MonoBehaviour
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
 
+    public float forwardForceShoot, upForceShoot;
+
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
@@ -39,41 +38,46 @@ public class EnemyAIController : MonoBehaviour
 
         if (!playerInSightRange && !playerInAttackRange) Patrolling();
         if (playerInSightRange && !playerInAttackRange) Chasing();
-        if(playerInAttackRange && playerInSightRange) Attacking();
+        if (playerInAttackRange && playerInSightRange) Attacking();
+        if (playerInSightRange && !wasInAttack) Chasing();
     }
 
-    private void Patrolling() {
+    private void Patrolling()
+    {
+        Debug.Log("Patrolling");
+
         if (!walkPointSet) SearchWalkPoint();
 
-        if(walkPointSet)
+        if (walkPointSet)
             agent.SetDestination(walkPoint);
 
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
-        if(distanceToWalkPoint.magnitude < 1f)
+        if (distanceToWalkPoint.magnitude < 1f)
         {
             walkPointSet = false;
         }
     }
 
-    private void SearchWalkPoint(){
+    private void SearchWalkPoint()
+    {
         float randomX = Random.Range(-walkPointRange, walkPointRange);
         float randomZ = Random.Range(-walkPointRange, walkPointRange);
 
         walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
 
-        if(Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
+        if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
         {
             walkPointSet = true;
         }
     }
 
-    private void Chasing() 
+    private void Chasing()
     {
         agent.SetDestination(player.position);
     }
-    
-    private void Attacking() 
+
+    private void Attacking()
     {
         Debug.Log("Attacking");
         //Make sure enemy doesn't move
@@ -84,8 +88,8 @@ public class EnemyAIController : MonoBehaviour
         {
             //Attack Function
             Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
-            rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
-            rb.AddForce(transform.up * 8f, ForceMode.Impulse);
+            rb.AddForce(transform.forward * forwardForceShoot, ForceMode.Impulse);
+            rb.AddForce(transform.up * upForceShoot, ForceMode.Impulse);
 
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
@@ -101,10 +105,10 @@ public class EnemyAIController : MonoBehaviour
     {
         health -= damage;
 
-        if (health <= 0) Invoke(nameof(DestryEnemy), .5f);
+        if (health <= 0) Invoke(nameof(DestroyEnemy), .5f);
     }
 
-    private void DestryEnemy()
+    private void DestroyEnemy()
     {
         Destroy(gameObject);
     }
