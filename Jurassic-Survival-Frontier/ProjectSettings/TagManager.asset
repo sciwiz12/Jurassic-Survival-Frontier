@@ -3,8 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
+<<<<<<< HEAD
   tags:
   - MainCanvas
+=======
+  tags: []
+>>>>>>> parent of dff51c38 (Deleted Everything)
   layers:
   - Default
   - TransparentFX
@@ -14,8 +18,13 @@ TagManager:
   - UI
   - 
   - 
+<<<<<<< HEAD
   - WhatIsGround
   - WhatIsPlayer
+=======
+  - 
+  - 
+>>>>>>> parent of dff51c38 (Deleted Everything)
   - 
   - 
   - 

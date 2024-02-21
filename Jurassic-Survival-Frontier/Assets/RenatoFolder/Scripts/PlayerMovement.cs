@@ -10,7 +10,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float playerSpeed = 2.0f;
     private float jumpHeight = 1.0f;
     private float gravityValue = -9.81f;
+<<<<<<< HEAD
     public bool isRuning;
+=======
+>>>>>>> parent of dff51c38 (Deleted Everything)
 
     private StaminaManager staminaManager;
 
