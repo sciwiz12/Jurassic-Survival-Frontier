@@ -584,11 +584,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: {x: 0, y: 0, z: 0}
-  isGrounded: 0
   speed: 3
   rotationSpeed: 100
   jumpHeight: 10
   gravityValue: -9.81
+  isGrounded: 0
+  isRuning: 0
 --- !u!143 &513659693
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2574,6 +2575,10 @@ PrefabInstance:
     - target: {fileID: 7834516794086281048, guid: 0653f7a811a7e6d46a8d7c4b79ab3c61, type: 3}
       propertyPath: m_Name
       value: InventoryCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7834516794086281048, guid: 0653f7a811a7e6d46a8d7c4b79ab3c61, type: 3}
+      propertyPath: m_TagString
+      value: MainCanvas
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
