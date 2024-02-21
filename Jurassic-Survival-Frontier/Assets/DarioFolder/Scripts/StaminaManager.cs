@@ -17,6 +17,12 @@ public class StaminaManager : MonoBehaviour
         get { return staminaRecharge; }
         set { staminaRecharge = value; }
     }
+    [SerializeField] private float accuracy = Mathf.Clamp(accuracy, 0f, 40f);
+    public float Accuracy
+    {
+        get { return accuracy; }
+        set { accuracy = value; }
+    }
 
     [SerializeField] public bool isActionPerformed = false;
 
@@ -53,10 +59,20 @@ public class StaminaManager : MonoBehaviour
             currentStamina = maxStamina;
         }
 
+        if(currentStamina < currentStamina/3 && !isSleeping)
+        {
+            accuracy--;
+        }
+        else
+        {
+            accuracy++;
+        }
+
         if (lightingManager.isNight)
         {
             needToSleep = true;
         }
+
         if (isSleeping)
         {
             needToSleep = false;
