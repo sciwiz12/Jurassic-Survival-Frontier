@@ -39,7 +39,6 @@ public class EnemyAIController : MonoBehaviour
         if (!playerInSightRange && !playerInAttackRange) Patrolling();
         if (playerInSightRange && !playerInAttackRange) Chasing();
         if (playerInAttackRange && playerInSightRange) Attacking();
-        if (playerInSightRange && !wasInAttack) Chasing();
     }
 
     private void Patrolling()

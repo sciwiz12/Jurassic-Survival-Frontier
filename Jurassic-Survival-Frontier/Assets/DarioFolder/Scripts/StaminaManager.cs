@@ -17,7 +17,7 @@ public class StaminaManager : MonoBehaviour
         get { return staminaRecharge; }
         set { staminaRecharge = value; }
     }
-    [SerializeField] private float accuracy = Mathf.Clamp(accuracy, 0f, 40f);
+    [SerializeField] private float accuracy;
     public float Accuracy
     {
         get { return accuracy; }
@@ -71,6 +71,10 @@ public class StaminaManager : MonoBehaviour
         if (lightingManager.isNight)
         {
             needToSleep = true;
+        }
+        else
+        {
+            needToSleep = false;
         }
 
         if (isSleeping)

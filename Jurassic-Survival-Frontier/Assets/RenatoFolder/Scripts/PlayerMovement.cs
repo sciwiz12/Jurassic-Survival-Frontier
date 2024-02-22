@@ -17,9 +17,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         controller = GetComponent<CharacterController>();
-        staminaManager = GetComponent<StaminaManager>();
-        //staminaManager.MaxStamina = 100;
-        //Debug.Log(staminaManager.MaxStamina);
+        staminaManager = FindObjectOfType<StaminaManager>();
     }
 
     void Update()
@@ -52,11 +50,13 @@ public class PlayerMovement : MonoBehaviour
         #region Stamina
         if (Input.GetKeyDown(KeyCode.Q))
         {
+            Debug.Log("premuto Q");
             staminaManager.StaminaReduceAction(staminaManager.staminaCost = 10);
             staminaManager.isActionPerformed = false;
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
+            Debug.Log("Premuto E");
             staminaManager.StaminaReduceAction(staminaManager.staminaCost = 5);     
             staminaManager.isActionPerformed = false;
         }
