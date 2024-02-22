@@ -12,24 +12,20 @@ public class InventorySlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     private Vector2 originalPosition; // To remember the slot's original position
     public GameObject ghostItemPrefab; // Assign a prefab with an Image component in the inspector
     private GameObject currentGhostItem;
-    public Canvas parentCanvas;
+    private Transform inventoryWindowPanel; // Reference to the inventory window panel
+    private static InventorySlot currentlyDraggingSlot; // Static reference to track which slot is currently being dragged
 
     void Awake()
     {
-        parentCanvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
-        if (parentCanvas == null)
+        inventoryWindowPanel = GameObject.FindGameObjectWithTag("InventoryWindow").transform;
+        if (inventoryWindowPanel == null)
         {
-            // Optionally, use FindObjectOfType if GetComponentInParent doesn't suit your setup
-            parentCanvas = FindObjectOfType<Canvas>();
+            Debug.LogError("Inventory window panel not found. Please ensure it is tagged correctly.");
         }
     }
 
-
-
-    // Update to include item name and quantity in the display
     public void UpdateSlot(string itemName, int quantity)
     {
-        // Concatenate item name and quantity for display
         quantityText.text = itemName + (quantity > 1 ? " x" + quantity.ToString() : "");
     }
 
@@ -37,25 +33,21 @@ public class InventorySlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     {
         if (item != null)
         {
-            originalPosition = transform.position; // Remember the original slot position
+            originalPosition = transform.position;
+            currentlyDraggingSlot = this; // Set the currently dragging slot
 
-            if (ghostItemPrefab != null)
+            currentGhostItem = Instantiate(ghostItemPrefab, inventoryWindowPanel, false);
+            currentGhostItem.transform.position = transform.position;
+            Image ghostImage = currentGhostItem.GetComponentInChildren<Image>(true);
+            if (ghostImage != null)
             {
-                currentGhostItem = Instantiate(ghostItemPrefab, parentCanvas.transform, false);
-                currentGhostItem.transform.position = transform.position;
-
-                Image ghostImage = currentGhostItem.GetComponentInChildren<Image>(true); // Adjusted to GetComponentInChildren and include inactive components
-                if (ghostImage != null)
-                {
-                    ghostImage.sprite = itemImage.sprite;
-                    ghostImage.rectTransform.sizeDelta = itemImage.rectTransform.sizeDelta;
-                }
-                else
-                {
-                    Debug.LogError("GhostItem prefab is missing an Image component.");
-                    Destroy(currentGhostItem);
-                    return;
-                }
+                ghostImage.sprite = itemImage.sprite;
+                ghostImage.rectTransform.sizeDelta = itemImage.rectTransform.sizeDelta;
+            }
+            else
+            {
+                Debug.LogError("GhostItem prefab is missing an Image component.");
+                Destroy(currentGhostItem);
             }
         }
         else
@@ -64,68 +56,39 @@ public class InventorySlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         }
     }
 
-
-
-
-
-
-
-
     public void OnDrag(PointerEventData eventData)
     {
         if (currentGhostItem != null)
         {
-            currentGhostItem.transform.position = Input.mousePosition; // Move the ghost item with the mouse
+            currentGhostItem.transform.position = Input.mousePosition;
         }
     }
-
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        // Destroy the ghost item and reset any necessary states
         if (currentGhostItem != null)
         {
             Destroy(currentGhostItem);
+            if (currentlyDraggingSlot == this)
+            {
+                currentlyDraggingSlot = null; // Clear the reference if this slot was the one being dragged
+            }
         }
     }
 
-
     public void OnDrop(PointerEventData eventData)
     {
-        if (eventData.pointerDrag != null)
+        InventorySlot originalSlot = currentlyDraggingSlot; // Use the static reference to find the original slot
+
+        if (originalSlot != null && originalSlot.item != null)
         {
-            // Attempt to get the GhostItem component from the dragged object
-            GhostItem ghostItem = eventData.pointerDrag.GetComponent<GhostItem>();
-
-            // Ensure the ghost item and its original slot are valid
-            if (ghostItem != null && ghostItem.originalSlot != null)
-            {
-                InventorySlot originalSlot = ghostItem.originalSlot;
-
-                // Proceed with the logic using the item from the original slot
-                if (this.item == null || this.item.itemName == originalSlot.item.itemName)
-                {
-                    Debug.Log($"Dropped {originalSlot.item.itemName} onto an empty or compatible slot.");
-                    this.item = originalSlot.item; // Move or combine logic placeholder
-                    UpdateSlot(this.item.itemName, this.item.quantity); // Update this slot with the new item info
-
-                    // Optionally, clear the original slot if the item was moved
-                    // originalSlot.ClearSlot(); // Implement this method to reset or update the original slot as necessary
-                }
-                else
-                {
-                    Debug.Log($"Swapping or combining {originalSlot.item.itemName} with {this.item.itemName} is not implemented.");
-                    // Implement logic for swapping items or other interactions as needed
-                }
-            }
-            else
-            {
-                Debug.LogError("The dragged object's original slot or item is null.");
-            }
+            // Perform your drop logic here using originalSlot and this slot
+            Debug.Log($"Dropped {originalSlot.item.itemName} onto an empty or compatible slot.");
+            // Further logic to handle item movement, combination, or trading
         }
         else
         {
-            Debug.LogError("PointerDrag is null.");
+            Debug.LogError("Error during dropping: Original slot is null or doesn't contain an item.");
         }
     }
 

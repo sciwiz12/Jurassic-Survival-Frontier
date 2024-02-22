@@ -1730,7 +1730,7 @@ GameObject:
   - component: {fileID: 1011061783}
   - component: {fileID: 1011061782}
   m_Layer: 0
-  m_Name: Herb (2)
+  m_Name: Herb2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1748,7 +1748,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3347ca30e2d5f3046a9f5f8bb631acb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 9108003be5605744f8def79109adbb31, type: 2}
+  item: {fileID: 11400000, guid: 370896b633378b74a917597fa18d7689, type: 2}
 --- !u!135 &1011061783
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2065,7 +2065,7 @@ GameObject:
   - component: {fileID: 1637702270}
   - component: {fileID: 1637702269}
   m_Layer: 0
-  m_Name: Herb (3)
+  m_Name: Herb2 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2083,7 +2083,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3347ca30e2d5f3046a9f5f8bb631acb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 9108003be5605744f8def79109adbb31, type: 2}
+  item: {fileID: 11400000, guid: 370896b633378b74a917597fa18d7689, type: 2}
 --- !u!135 &1637702270
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2571,6 +2571,10 @@ PrefabInstance:
     - target: {fileID: 2706065014260251430, guid: 0653f7a811a7e6d46a8d7c4b79ab3c61, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6097833602771012317, guid: 0653f7a811a7e6d46a8d7c4b79ab3c61, type: 3}
+      propertyPath: m_TagString
+      value: InventoryWindow
       objectReference: {fileID: 0}
     - target: {fileID: 7834516794086281048, guid: 0653f7a811a7e6d46a8d7c4b79ab3c61, type: 3}
       propertyPath: m_Name
