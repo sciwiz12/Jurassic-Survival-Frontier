@@ -11,33 +11,36 @@ public class StaminaManager : MonoBehaviour
     private float maxStamina = 100;
     [SerializeField] private float currentStamina;
 
+    #region Properties
     [SerializeField] private float staminaRecharge = 2f;
     public float StaminaRecharge
     {
         get { return staminaRecharge; }
         set { staminaRecharge = value; }
     }
+
     [SerializeField] private float accuracy;
     public float Accuracy
     {
         get { return accuracy; }
         set { accuracy = value; }
     }
+    #endregion
 
     [SerializeField] public bool isActionPerformed = false;
 
     [HideInInspector] public float staminaCost;
     private float malusSleep = 1f;
-    public bool needToSleep;
     public bool isSleeping;
-    private LightingManager lightingManager;
-    #endregion
+    [SerializeField] private float sleep = 100;
+    [SerializeField] private float timeWakeUp;
 
+    #endregion
 
     private void Start()
     {
         currentStamina = maxStamina;
-        lightingManager = FindObjectOfType<LightingManager>();
+        timeWakeUp = 0;
     }
 
     private void Update()
@@ -48,39 +51,70 @@ public class StaminaManager : MonoBehaviour
             currentStamina += staminaRecharge * Time.deltaTime;
         }
 
-        if(currentStamina > 100)
+        if (currentStamina > 100)
         {
             currentStamina = 100;
         }
-
-        if (needToSleep)
+        else if (currentStamina < 0)
+            currentStamina = 0;
+        if(timeWakeUp > 14)
         {
+
+        }
+        //if (needToSleep)
+        //{
+        //    maxStamina -= malusSleep * Time.deltaTime;
+        //    currentStamina = maxStamina;
+
+        //}
+
+        //if(currentStamina < currentStamina/3 && !isSleeping)
+        //{
+        //    accuracy--;
+        //}
+        //else
+        //{
+        //    accuracy++;
+        //}
+    }
+
+    #region METHODS
+    /*private void SleepCycle()
+    {
+        if (NeedToSleep())
+        {
+            accuracy--;
             maxStamina -= malusSleep * Time.deltaTime;
             currentStamina = maxStamina;
         }
-
-        if(currentStamina < currentStamina/3 && !isSleeping)
+        else //check if go to bed
         {
-            accuracy--;
-        }
-        else
-        {
-            accuracy++;
-        }
-
-        if (lightingManager.isNight)
-        {
-            needToSleep = true;
-        }
-        else
-        {
-            needToSleep = false;
-        }
-
-        if (isSleeping)
-        {
-            needToSleep = false;
             maxStamina += malusSleep * 2 * Time.deltaTime;
+            timeWakeUp = 0; //until the animation of sleeping end
+            accuracy++;
+            sleep--;
+        }
+    }*/
+
+    private bool NeedToSleep()
+    {
+        timeWakeUp += 1 * Time.deltaTime;
+        if(timeWakeUp > 18)
+        {
+            sleep++;
+            if (sleep > 50)
+            {
+                Debug.Log("You are start ecc.");
+            }
+            if (sleep > 75)
+            {
+                Debug.Log("You need to sleep");
+            }
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -90,4 +124,6 @@ public class StaminaManager : MonoBehaviour
         isActionPerformed = true;
         return staminaCost;
     }
+
+    #endregion
 }
