@@ -111,6 +111,8 @@ public class PassiveNPC : MonoBehaviour
             newSlot.GetComponent<InventorySlot>().SetParent(false);
             newSlot.GetComponent<InventorySlot>().item = item;
             itemSlotMapping.Add(item, newSlot.GetComponent<InventorySlot>());
+            // Set the slot's "isInventorySlot" property to false
+            newSlot.GetComponent<InventorySlot>().isInventorySlot = false;
             // Set the item's quantity in the slot
             newSlot.GetComponent<InventorySlot>().UpdateSlot(item.itemName, item.quantity);
             // Set the item's image in the slot

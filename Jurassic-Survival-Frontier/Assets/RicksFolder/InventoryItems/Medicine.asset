@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Medicine
   m_EditorClassIdentifier: 
   itemName: Medicine
+  value: 50
   icon: {fileID: 21300000, guid: 8640e8c50a99b414aac75599716ef008, type: 3}
   quantity: 1

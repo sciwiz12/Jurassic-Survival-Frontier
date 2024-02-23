@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Water
   m_EditorClassIdentifier: 
   itemName: Water
+  value: 10
   icon: {fileID: 21300000, guid: 6bcdcdfab54f5d648896a2a42b6ef11d, type: 3}
   quantity: 1

@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Cactus
   m_EditorClassIdentifier: 
   itemName: Cactus
+  value: 30
   icon: {fileID: 21300000, guid: a5f8aee796451814cbdc0591179f3795, type: 3}
   quantity: 1

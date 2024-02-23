@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Flowers
   m_EditorClassIdentifier: 
   itemName: Flowers
+  value: 5
   icon: {fileID: 21300000, guid: 05af544d4cc137c4aa7994809b47d325, type: 3}
   quantity: 1

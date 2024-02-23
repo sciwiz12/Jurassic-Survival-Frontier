@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638441210579840531
-    m_Hash: 3558305919
+      ticks: 638442529250000000
+    m_Hash: 2045536091
   m_LockFileStatus:
     m_FilePath: C:/JurassicSurvivalFrontier/Jurassic-Survival-Frontier/Jurassic-Survival-Frontier/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638441210579855588
-    m_Hash: 230169377
+      ticks: 638442529250000000
+    m_Hash: 3253171730
 m_EmbeddedPackageManifests:
   m_ManifestsStatus:
     C:/JurassicSurvivalFrontier/Jurassic-Survival-Frontier/Jurassic-Survival-Frontier/Packages/GLTFUtility-master/package.json:
@@ -23,8 +23,8 @@ m_EmbeddedPackageManifests:
       m_ContentTrackingEnabled: 1
       m_ModificationDate:
         serializedVersion: 2
-        ticks: 638441210566455839
-      m_Hash: 3091243149
+        ticks: 638442529250000000
+      m_Hash: 2821709942
 m_LocalPackages:
   m_LocalFileStatus: []
 m_ProjectPath: C:/JurassicSurvivalFrontier/Jurassic-Survival-Frontier/Jurassic-Survival-Frontier/Packages

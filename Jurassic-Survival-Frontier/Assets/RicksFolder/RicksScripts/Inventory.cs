@@ -113,6 +113,19 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public void PurchaseItem(Item item, int price)
+    {
+        if (money >= price)
+        {
+            AddItem(item);
+            RemoveMoney(price);
+        }
+        else
+        {
+            Debug.Log("Not enough money to purchase this item.");
+        }
+    }
+
     private void ToggleInventoryVisibility()
     {
         isInventoryVisible = !isInventoryVisible;

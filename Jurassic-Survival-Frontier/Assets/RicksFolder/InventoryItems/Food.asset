@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Food
   m_EditorClassIdentifier: 
   itemName: Food
+  value: 10
   icon: {fileID: 21300000, guid: 190205fbbb771af4eafde61fc46c87d3, type: 3}
   quantity: 1

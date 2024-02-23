@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Herb2
   m_EditorClassIdentifier: 
   itemName: Herb2
+  value: 5
   icon: {fileID: 21300000, guid: 36cd86acc2c682b4c88fb4e8cc59c56f, type: 3}
   quantity: 1

@@ -15,7 +15,7 @@ public class InventorySlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     private Transform inventoryWindowPanel; // Reference to the inventory window panel
     private static InventorySlot currentlyDraggingSlot; // Static reference to track which slot is currently being dragged
     public Inventory inventory; // This is one way to get the inventory instance
-    private bool isInventorySlot = true; // Set this to false if this slot is in a trading window
+    public bool isInventorySlot = true; // Set this to false if this slot is in a trading window
 
 
     void Awake()
@@ -101,6 +101,34 @@ public class InventorySlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     {
         CleanupGhostItem();
         CleanupAllGhostItems();
+        GameObject TradingUIWindow = GameObject.FindGameObjectWithTag("TradingWindow");
+        InventorySlot originalSlot = currentlyDraggingSlot; // Slot being dragged from
+        // Check if the trading window is active
+        if(TradingUIWindow == null)
+        {
+            Debug.Log("Trading window is not active");
+        }
+        else
+        {
+            if (originalSlot != null && originalSlot.item != null)
+            {
+                bool isBuying = !this.isInventorySlot; // Buying if dragged to a non-inventory slot (NPC to Player)
+                // Execute Buy or Sell Logic
+                if (isBuying)
+                {
+                    Debug.Log($"Buying {originalSlot.item.itemName}");
+                    // Example Buy Logic
+                    inventory.PurchaseItem(originalSlot.item, originalSlot.item.value);
+                }
+                else
+                {
+                    Debug.Log($"Selling {originalSlot.item.itemName}");
+                    // Example Sell Logic
+                    inventory.AddMoney(originalSlot.item.value); // Deduct money from player's inventory
+                    inventory.RemoveItem(originalSlot.item); // Add item to player's inventory
+                }
+            }
+        }   
     }
 
     
@@ -121,10 +149,24 @@ public class InventorySlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     }
     /*public void OnDrop(PointerEventData eventData)
     {
-        Canvas TradingUIWindow = GameObject.FindGameObjectWithTag("TradingWindow").GetComponent<Canvas>();
+        GameObject TradingUIWindow = GameObject.FindGameObjectWithTag("TradingWindow");
         InventorySlot originalSlot = currentlyDraggingSlot; // Slot being dragged from
-        if(TradingUIWindow.isActiveAndEnabled)
+        // Check if the trading window is active
+
+        if(TradingUIWindow == null)
         {
+            if (originalSlot != null && originalSlot.item != null)
+            {
+                inventory.CombineItems(originalSlot.item, this.item);
+            }
+            else
+            {
+                Debug.LogError("Error during dropping: Original slot is null or doesn't contain an item.");
+            }
+        }
+        else
+        {
+            
             if (originalSlot != null && originalSlot.item != null)
             {
                 bool isBuying = !this.isInventorySlot; // Buying if dragged to a non-inventory slot (NPC to Player)
@@ -134,27 +176,16 @@ public class InventorySlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                 {
                     Debug.Log($"Buying {originalSlot.item.itemName}");
                     // Example Buy Logic
-                    inventory.RemoveItem(originalSlot.item); // Remove item from player's inventory
-                    inventory.AddMoney(originalSlot.item.value); // Add money to player's inventory
+                    inventory.AddItem(originalSlot.item); // Remove item from player's inventory
+                    inventory.RemoveMoney(originalSlot.item.value); // Add money to player's inventory
                 }
                 else
                 {
                     Debug.Log($"Selling {originalSlot.item.itemName}");
                     // Example Sell Logic
-                    inventory.AddItem(originalSlot.item); // Add item to player's inventory
-                    inventory.RemoveMoney(originalSlot.item.value); // Deduct money from player's inventory
+                    inventory.RemoveItem(originalSlot.item); // Add item to player's inventory
+                    inventory.AddMoney(originalSlot.item.value); // Deduct money from player's inventory
                 }
-            }
-        }
-        else
-        {
-            if (originalSlot != null && originalSlot.item != null)
-            {
-                inventory.CombineItems(originalSlot.item, this.item);
-            }
-            else
-            {
-                Debug.LogError("Error during dropping: Original slot is null or doesn't contain an item.");
             }
         }
         CleanupGhostItem(); // Cleanup any ghost item
