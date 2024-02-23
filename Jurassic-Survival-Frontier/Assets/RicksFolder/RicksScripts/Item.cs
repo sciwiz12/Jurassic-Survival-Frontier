@@ -7,6 +7,7 @@ using UnityEngine;
 public class Item : ScriptableObject
 {
     public string itemName;
+    public int value;
     public Sprite icon;
     public int quantity = 1; // Default quantity
 

@@ -6,6 +6,8 @@ TagManager:
   tags:
   - MainCanvas
   - InventoryWindow
+  - GhostItem
+  - TradingWindow
   layers:
   - Default
   - TransparentFX
