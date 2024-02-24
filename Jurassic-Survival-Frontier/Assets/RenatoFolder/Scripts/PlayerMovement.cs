@@ -13,13 +13,22 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float gravityValue = -9.81f;
     public bool isRunning;
     private StaminaManager staminaManager;
+    Animator anim;
+
+    // States
+    float velocityState;
+    float idleState = 0f;
+    float walkState = 0.5f;
+    float runState = 1f;
 
     private void Start()
     {
         controller = GetComponent<CharacterController>();
         staminaManager = GetComponent<StaminaManager>();
-        //staminaManager.MaxStamina = 100;
-        //Debug.Log(staminaManager.MaxStamina);
+        anim = GetComponent<Animator>();
+
+        velocityState = idleState;
+        anim.SetFloat("walk", velocityState);
     }
 
     void Update()
@@ -55,17 +64,41 @@ public class PlayerMovement : MonoBehaviour
 
     void Movement(Vector3 move)
     {
-        int multiplier;
-        if (Input.GetKey(KeyCode.LeftShift))
+        int multiplier = 1;
+        string parameter = "velocity";
+
+        // Idle
+        if (move == Vector3.zero)
         {
-            multiplier = 5;
+            multiplier = 0;
+
+            SetVelocityState(this.anim, parameter, velocityState, idleState);
         }
-        else
+        
+        // Walk
+        if ( move != Vector3.zero)
         {
             multiplier = 1;
+
+            SetVelocityState(this.anim, parameter, velocityState, walkState);
         }
+
+        // Run
+        if (Input.GetKey(KeyCode.LeftShift) && move != Vector3.zero)
+        {
+            multiplier = 5;
+
+            SetVelocityState(this.anim, parameter, velocityState, runState);
+        }
+
         // Move the player
         controller.Move(move * speed * multiplier * Time.deltaTime);
+    }
+
+    void SetVelocityState(Animator anim, string parameter, float state, float newState)
+    {
+        state = newState;
+        anim.SetFloat(parameter, state);
     }
 
     void Rotation(float horizontal)
