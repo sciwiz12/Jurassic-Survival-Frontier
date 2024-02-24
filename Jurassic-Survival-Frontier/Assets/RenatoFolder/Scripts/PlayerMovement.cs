@@ -71,15 +71,13 @@ public class PlayerMovement : MonoBehaviour
         if (move == Vector3.zero)
         {
             multiplier = 0;
-
             SetVelocityState(this.anim, parameter, velocityState, idleState);
         }
-        
+
         // Walk
-        if ( move != Vector3.zero)
+        if (move != Vector3.zero)
         {
             multiplier = 1;
-
             SetVelocityState(this.anim, parameter, velocityState, walkState);
         }
 
