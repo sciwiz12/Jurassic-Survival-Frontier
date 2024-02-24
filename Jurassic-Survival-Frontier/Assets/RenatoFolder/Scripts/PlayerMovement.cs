@@ -52,13 +52,16 @@ public class PlayerMovement : MonoBehaviour
     void GroundedPlayer()
     {
         isGrounded = controller.isGrounded;
+        
         if (isGrounded && velocity.y <= 0)
         {
             velocity.y = gravityValue;
+            anim.SetBool("jump", false);
         }
         else
         {
             velocity.y += gravityValue * Time.deltaTime;
+          
         }
     }
 
@@ -111,8 +114,8 @@ public class PlayerMovement : MonoBehaviour
         // Jumping logic
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            Debug.Log("Jump");
             velocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+            anim.SetBool("jump", true);
         }
 
         controller.Move(velocity * Time.deltaTime);
