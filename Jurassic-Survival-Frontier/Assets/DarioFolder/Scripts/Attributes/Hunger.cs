@@ -8,7 +8,6 @@ public class Hunger : MonoBehaviour
     private PlayerMovement playerMovement;
     public float timer;
     public float timerPassed = 5f;
-    public bool hasAte;
     public Image hungerBar;
     public float modifier = 0.5f;
 
@@ -22,11 +21,11 @@ public class Hunger : MonoBehaviour
     {
         hungerBar.fillAmount = playerMovement.CurrentHunger / playerMovement.maxHunger;
         timer += Time.deltaTime * modifier;
-        if(!hasAte && timer > timerPassed)
+        if(!playerMovement.hasAte && timer > timerPassed)
         {
             playerMovement.CurrentHunger -= Time.deltaTime * modifier;
         }
-        else if(hasAte) 
+        else if(playerMovement.hasAte) 
         {
             FeedMe();
             timer = 0;

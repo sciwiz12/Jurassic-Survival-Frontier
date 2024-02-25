@@ -3,19 +3,16 @@ using UnityEngine.UI;
 
 public class StaminaManager : MonoBehaviour
 {
-    #region Variables
+    #region VARIABLES
     [Header("VARIABLES")]
     [SerializeField] private float currentStamina;
-    [SerializeField] private float currentHunger;
-    [SerializeField] private float currentThirst;
     [SerializeField] private float sleep = 100;
     [SerializeField] private float timeAwake;
     private float maxStamina = 100;
-    private float maxHunger = 100;
-    private float maxThirst = 100;
-    private float reduction = 1f;
+    public float staminaReductionRate = 0.1f;
     public Image staminaImage;
     private LightingManager lightingManager;
+    private PlayerMovement playerMovement;
 
     #region Properties
     private float staminaCost;
@@ -47,10 +44,9 @@ public class StaminaManager : MonoBehaviour
 
     private void Start()
     {
+        playerMovement = FindObjectOfType<PlayerMovement>();
         lightingManager = FindObjectOfType<LightingManager>();
         currentStamina = maxStamina;
-        currentHunger  = maxHunger;
-        currentThirst  = maxThirst;
     }
 
     private void Update()
@@ -59,17 +55,25 @@ public class StaminaManager : MonoBehaviour
         timeAwake = Mathf.Clamp(timeAwake, 0, 18f);
         timeAwake += Time.deltaTime * lightingManager.timerDay;
         staminaImage.fillAmount = currentStamina / 100;
+        if (playerMovement.isRunning)
+        {
+            StaminaDecrease(staminaReductionRate);
+        }
+        else
+        {
+            currentStamina += staminaRecharge * Time.deltaTime;
+        }
+
         if (!isActionPerformed && currentStamina < 100)
         {
             currentStamina += staminaRecharge * Time.deltaTime;
         }
 
         if (currentStamina > 100)
-        {
-            currentStamina = 100;
-        }
+            currentStamina = 100;       
         else if (currentStamina < 0)
             currentStamina = 0;
+
         if (timeAwake > 14)
         {
             NeedToSleep();
@@ -110,18 +114,6 @@ public class StaminaManager : MonoBehaviour
         currentStamina -= staminaCost;
         isActionPerformed = true;
         return staminaCost;
-    }
-
-    public float HungerDecrease(float reduction = 1)
-    {
-        currentHunger -= reduction;
-        return currentHunger;
-    }    
-    
-    public float ThirstDecrease(float reduction = 1)
-    {
-        currentThirst -= reduction;
-        return currentThirst;
     }
 
     #endregion

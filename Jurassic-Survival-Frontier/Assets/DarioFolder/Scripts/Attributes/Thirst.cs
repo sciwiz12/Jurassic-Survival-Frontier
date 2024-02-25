@@ -8,25 +8,24 @@ public class Thirst : MonoBehaviour
     private PlayerMovement playerMovement;
     public float timer;
     public float timerPassed = 5f;
-    public bool hasAte;
-    public Image hungerBar;
+    public Image thirstBar;
     public float modifier = 0.5f;
 
     void Awake()
     {
         playerMovement = FindObjectOfType<PlayerMovement>();
-        playerMovement.CurrentHunger = playerMovement.maxHunger;
+        playerMovement.CurrentThirst = playerMovement.maxThirst;
     }
 
     void Update()
     {
-        hungerBar.fillAmount = playerMovement.CurrentHunger / playerMovement.maxHunger;
+        thirstBar.fillAmount = playerMovement.CurrentThirst / playerMovement.maxThirst;
         timer += Time.deltaTime * modifier;
-        if (!hasAte && timer > timerPassed)
+        if (!playerMovement.hasDrank && timer > timerPassed)
         {
-            playerMovement.CurrentHunger -= Time.deltaTime * modifier;
+            playerMovement.CurrentThirst -= Time.deltaTime * modifier;
         }
-        else if (hasAte)
+        else if (playerMovement.hasDrank)
         {
             DrinkUp();
             timer = 0;
@@ -35,7 +34,7 @@ public class Thirst : MonoBehaviour
 
     private float DrinkUp(float watering = 15)
     {
-        playerMovement.CurrentHunger += watering;
-        return playerMovement.CurrentHunger;
+        playerMovement.CurrentThirst += watering;
+        return playerMovement.CurrentThirst;
     }
 }

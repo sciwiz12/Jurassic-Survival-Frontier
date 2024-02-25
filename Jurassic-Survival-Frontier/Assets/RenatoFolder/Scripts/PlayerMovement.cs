@@ -10,8 +10,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float playerSpeed = 2.0f;
     private float jumpHeight = 1.0f;
     private float gravityValue = -9.81f;
-    public bool isRuning;
+    public bool isRunning;
+    public bool hasAte;
+    public bool hasDrank;
 
+    #region ATTRIBUTES
     public float maxHunger = 100f;
     private float currentHunger;
     public float CurrentHunger
@@ -27,6 +30,15 @@ public class PlayerMovement : MonoBehaviour
         get { return currentThirst; }
         set { currentThirst = value; }
     }
+
+    public float maxHealth = 100f;
+    private float currentHealth;
+    public float CurrentHealth
+    {
+        get { return currentHealth; }
+        set { currentHealth = value; }
+    }
+    #endregion
 
     private StaminaManager staminaManager;
 

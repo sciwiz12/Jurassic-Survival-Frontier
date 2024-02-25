@@ -27,7 +27,7 @@ public class StaminaBarBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(playerMovement.isRuning)
+        if(playerMovement.isRunning)
         {
             StaminaBarValue -= RunCost;
             
