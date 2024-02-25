@@ -12,6 +12,22 @@ public class PlayerMovement : MonoBehaviour
     private float gravityValue = -9.81f;
     public bool isRuning;
 
+    public float maxHunger = 100f;
+    private float currentHunger;
+    public float CurrentHunger
+    {
+        get { return currentHunger; }
+        set { currentHunger = value; }
+    }
+
+    public float maxThirst = 100f;
+    private float currentThirst;
+    public float CurrentThirst
+    {
+        get { return currentThirst; }
+        set { currentThirst = value; }
+    }
+
     private StaminaManager staminaManager;
 
     private void Start()
