@@ -51,13 +51,13 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             Debug.Log("premuto Q");
-            staminaManager.StaminaReduceAction(staminaManager.staminaCost = 10);
+            staminaManager.StaminaDecrease(staminaManager.StaminaCost = 10);
             staminaManager.isActionPerformed = false;
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
             Debug.Log("Premuto E");
-            staminaManager.StaminaReduceAction(staminaManager.staminaCost = 5);     
+            staminaManager.StaminaDecrease(staminaManager.StaminaCost = 5);     
             staminaManager.isActionPerformed = false;
         }
         #endregion

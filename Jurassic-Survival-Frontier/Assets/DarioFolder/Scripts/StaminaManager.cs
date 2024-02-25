@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,12 +5,27 @@ public class StaminaManager : MonoBehaviour
 {
     #region Variables
     [Header("VARIABLES")]
-    public Image staminaImage;
-
-    private float maxStamina = 100;
     [SerializeField] private float currentStamina;
+    [SerializeField] private float currentHunger;
+    [SerializeField] private float currentThirst;
+    [SerializeField] private float sleep = 100;
+    [SerializeField] private float timeAwake;
+    private float maxStamina = 100;
+    private float maxHunger = 100;
+    private float maxThirst = 100;
+    private float reduction = 1f;
+    public Image staminaImage;
+    private LightingManager lightingManager;
 
     #region Properties
+    private float staminaCost;
+
+    public float StaminaCost
+    {
+        get { return staminaCost; }
+        set { staminaCost = value; }
+    }
+
     [SerializeField] private float staminaRecharge = 2f;
     public float StaminaRecharge
     {
@@ -27,24 +41,23 @@ public class StaminaManager : MonoBehaviour
     }
     #endregion
 
-    [SerializeField] public bool isActionPerformed = false;
-
-    [HideInInspector] public float staminaCost;
-    private float malusSleep = 1f;
+    public bool isActionPerformed = false;
     public bool isSleeping;
-    [SerializeField] private float sleep = 100;
-    [SerializeField] private float timeWakeUp;
-
     #endregion
 
     private void Start()
     {
+        lightingManager = FindObjectOfType<LightingManager>();
         currentStamina = maxStamina;
-        timeWakeUp = 0;
+        currentHunger  = maxHunger;
+        currentThirst  = maxThirst;
     }
 
     private void Update()
     {
+        sleep = Mathf.Clamp(sleep, 0, 100);
+        timeAwake = Mathf.Clamp(timeAwake, 0, 18f);
+        timeAwake += Time.deltaTime * lightingManager.timerDay;
         staminaImage.fillAmount = currentStamina / 100;
         if (!isActionPerformed && currentStamina < 100)
         {
@@ -57,72 +70,58 @@ public class StaminaManager : MonoBehaviour
         }
         else if (currentStamina < 0)
             currentStamina = 0;
-        if(timeWakeUp > 14)
+        if (timeAwake > 14)
         {
-
+            NeedToSleep();
         }
-        //if (needToSleep)
-        //{
-        //    maxStamina -= malusSleep * Time.deltaTime;
-        //    currentStamina = maxStamina;
-
-        //}
-
-        //if(currentStamina < currentStamina/3 && !isSleeping)
-        //{
-        //    accuracy--;
-        //}
-        //else
-        //{
-        //    accuracy++;
-        //}
+        if (isSleeping)
+        {
+            accuracy++;
+            sleep += Time.deltaTime * 2 * lightingManager.timerDay;
+            timeAwake -= Time.deltaTime * 2 * lightingManager.timerDay;
+        }
     }
 
     #region METHODS
-    /*private void SleepCycle()
+
+    private void NeedToSleep()
     {
-        if (NeedToSleep())
+        if (!isSleeping && timeAwake > 14)
         {
             accuracy--;
-            maxStamina -= malusSleep * Time.deltaTime;
-            currentStamina = maxStamina;
-        }
-        else //check if go to bed
-        {
-            maxStamina += malusSleep * 2 * Time.deltaTime;
-            timeWakeUp = 0; //until the animation of sleeping end
-            accuracy++;
-            sleep--;
-        }
-    }*/
-
-    private bool NeedToSleep()
-    {
-        timeWakeUp += 1 * Time.deltaTime;
-        if(timeWakeUp > 18)
-        {
-            sleep++;
-            if (sleep > 50)
+            sleep -= Time.deltaTime * lightingManager.timerDay;
+            if (sleep < 75)
             {
-                Debug.Log("You are start ecc.");
+                Debug.Log("You are starting to feel tired.");
             }
-            if (sleep > 75)
+            if (sleep < 50)
             {
-                Debug.Log("You need to sleep");
+                Debug.Log("You need to sleep.");
             }
-            return true;
-        }
-        else
-        {
-            return false;
         }
     }
 
-    public float StaminaReduceAction(float staminaCost = 5)
+    /// <summary>
+    /// Call this function when an action is performed with the cost of stamina as argument.
+    /// Can be call for the run too. Make it the staminaCost very low and calling repeatly this function.
+    /// </summary>
+    public float StaminaDecrease(float staminaCost = 5)
     {
         currentStamina -= staminaCost;
         isActionPerformed = true;
         return staminaCost;
+    }
+
+    public float HungerDecrease(float reduction = 1)
+    {
+        currentHunger -= reduction;
+        return currentHunger;
+    }    
+    
+    public float ThirstDecrease(float reduction = 1)
+    {
+        currentThirst -= reduction;
+        return currentThirst;
     }
 
     #endregion
