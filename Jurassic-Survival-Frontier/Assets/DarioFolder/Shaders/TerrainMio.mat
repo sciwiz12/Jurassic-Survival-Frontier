@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: TerrainMio
+  m_Shader: {fileID: 4800000, guid: 43e16bf58b5b8c444b78eb7578d626c1, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _GrassTex:
+        m_Texture: {fileID: 2800000, guid: 4c76f14b8c143e743ab867c08b0df193, type: 3}
+        m_Scale: {x: 10, y: 10}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 65a38c4950648384e8962dace5e4c3cc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RockTex:
+        m_Texture: {fileID: 2800000, guid: 9941423c8155e164aafa0201b529e1fa, type: 3}
+        m_Scale: {x: 20, y: 20}
+        m_Offset: {x: 0, y: 0}
+    - _SnowTex:
+        m_Texture: {fileID: 2800000, guid: d0472abad67e40c44a060ef780b934b9, type: 3}
+        m_Scale: {x: 5, y: 5}
+        m_Offset: {x: 0, y: 0}
+    - _WaterTex:
+        m_Texture: {fileID: 2800000, guid: 97e96b97dddedc141bfd3046903a0879, type: 3}
+        m_Scale: {x: 30, y: 30}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _FadeWidth: 2.27
+    - _GrassAngle: 45
+    - _GrassHeight: 30
+    - _RockAngle: 50
+    - _RockHeight: 45
+    - _SnowHeight: 0.87
+    - _WaterHeight: 4
+    - _ZeroHeight: -0.5
+    m_Colors:
+    - _GrassColor: {r: 0.7924528, g: 0.565234, b: 0.1981132, a: 1}
+    - _RockColor: {r: 0.3584906, g: 0.33063293, b: 0.2756319, a: 1}
+    - _SnowColor: {r: 1, g: 1, b: 1, a: 1}
+    - _WaterColor: {r: 0, g: 0.96862745, b: 1, a: 1}
+  m_BuildTextureStacks: []

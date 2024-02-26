@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 0
-  m_FogColor: {r: 0.8925491, g: 0.8925491, b: 0.8925491, a: 1}
+  m_FogColor: {r: 0.43816656, g: 0.43816656, b: 0.43816656, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.73673385, g: 0.54904646, b: 0.34959412, a: 1}
+  m_AmbientSkyColor: {r: 0.6937695, g: 0.53924763, b: 0.40520862, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.45062017, g: 0.5005921, b: 0.57499564, a: 1}
+  m_IndirectSpecularColor: {r: 0.44946897, g: 0.4964453, b: 0.55902934, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -569,8 +569,8 @@ MonoBehaviour:
   DirectionalLight: {fileID: 1530384831}
   Preset: {fileID: 11400000, guid: 3da1cffc7a521de489e6aef58332dd08, type: 2}
   timerDay: 1
-  timeOfDay: 10.839704
-  isNight: 0
+  timeOfDay: 18.067831
+  isNight: 1
 --- !u!1 &1065335665
 GameObject:
   m_ObjectHideFlags: 0
@@ -1118,7 +1118,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.4776678, g: 0.6323336, b: 0.67090094, a: 1}
+  m_Color: {r: 0.2392577, g: 0.22463629, b: 0.12422258, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -1177,7 +1177,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1530384830}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.051594656, y: 0.8028844, z: -0.58972925, w: 0.070243336}
+  m_LocalRotation: {x: 0.08715237, y: -0.008845087, z: -0.9961555, w: -0.00077384536}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1324,7 +1324,7 @@ Terrain:
   m_StaticShadowCaster: 0
   m_IgnoreQualitySettings: 0
   m_ReflectionProbeUsage: 1
-  m_MaterialTemplate: {fileID: 10652, guid: 0000000000000000f000000000000000, type: 0}
+  m_MaterialTemplate: {fileID: 2100000, guid: dc1479ebcd56b874494878c2c1a00b5a, type: 2}
   m_BakeLightProbesForTrees: 1
   m_PreserveTreePrototypeLayers: 0
   m_DeringLightProbesForTrees: 1
@@ -1535,7 +1535,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6661851242701271950, guid: 2e94e335bcb443d49a512277f449aadb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 30.5
       objectReference: {fileID: 0}
     - target: {fileID: 6661851242701271950, guid: 2e94e335bcb443d49a512277f449aadb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1596,7 +1596,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 262016731799962588, guid: 73ecf2628815ce74997d0710a1c5be7f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 31.61
       objectReference: {fileID: 0}
     - target: {fileID: 262016731799962588, guid: 73ecf2628815ce74997d0710a1c5be7f, type: 3}
       propertyPath: m_LocalPosition.z
