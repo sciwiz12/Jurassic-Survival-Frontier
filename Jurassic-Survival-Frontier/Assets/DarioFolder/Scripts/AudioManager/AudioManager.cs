@@ -14,12 +14,12 @@ public class AudioManager : Singleton<AudioManager>
 
     #endregion
 
-    private void Awake()
+    public override void Awake()
     {
         base.Awake();
         sceneBackgroundMusic.Play(musicSource);
         musicSource.playOnAwake = false;
-        musicSource.volume = 0;
+        musicSource.volume = sceneBackgroundMusic.Volume;
         musicSource.Play();
         
     }
