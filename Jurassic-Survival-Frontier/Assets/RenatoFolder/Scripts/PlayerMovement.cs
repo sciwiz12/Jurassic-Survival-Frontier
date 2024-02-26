@@ -5,82 +5,105 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private CharacterController controller;
-    [SerializeField] private Vector3 velocity;
-    [SerializeField] private float speed = 2.0f;
-    [SerializeField] private float rotationSpeed = 100.0f; // Adjusted for degrees per second
-    [SerializeField] private float jumpHeight = 1.0f;
-    [SerializeField] private float gravityValue = -9.81f;
+    private Vector3 playerVelocity;
+    private bool groundedPlayer;
+    [SerializeField] private float playerSpeed = 5.0f;
+    [SerializeField] private float rotationSpeed = 100f;
+    private Vector3 move;
+    private Quaternion rotation;
+    private float jumpHeight = 1.0f;
+    private float gravityValue = -9.81f;
+    public bool isRunning;
+    public bool hasAte;
+    public bool hasDrank;
 
-    //States
-    [SerializeField] private bool isGrounded = false;
-    public bool isRuning = false;
-    
+    #region ATTRIBUTES
+    public float maxHunger = 100f;
+    private float currentHunger;
+    public float CurrentHunger
+    {
+        get { return currentHunger; }
+        set { currentHunger = value; }
+    }
+
+    public float maxThirst = 100f;
+    private float currentThirst;
+    public float CurrentThirst
+    {
+        get { return currentThirst; }
+        set { currentThirst = value; }
+    }
+
+    public float maxHealth = 100f;
+    private float currentHealth;
+    public float CurrentHealth
+    {
+        get { return currentHealth; }
+        set { currentHealth = value; }
+    }
+    #endregion
+
+    private StaminaManager staminaManager;
+
     private void Start()
     {
         controller = GetComponent<CharacterController>();
+        staminaManager = FindObjectOfType<StaminaManager>();
     }
 
     void Update()
     {
-        GroundedPlayer();
-
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-        Vector3 move = transform.forward * vertical;
-
-        Rotation(horizontal);
-
-        Movement(move, this.speed);
-
-        Jump();
-    }
-
-    void GroundedPlayer()
-    {
-        isGrounded = controller.isGrounded;
-        if (isGrounded && velocity.y <= 0)
+        groundedPlayer = controller.isGrounded;
+        if (groundedPlayer && playerVelocity.y < 0)
         {
-            velocity.y = gravityValue;
+            playerVelocity.y = 0f;
+        }
+
+        Vector3 moveInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        if (moveInput.magnitude > 0)
+        {
+            Vector3 cameraForward = Camera.main.transform.forward;
+            cameraForward.y = 0; // Ensure the movement is only influenced on the XZ plane
+            Quaternion targetRotation = Quaternion.LookRotation(cameraForward) * Quaternion.LookRotation(moveInput);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+
+            // Convert the moveInput vector from local space to world space
+            move = transform.TransformDirection(moveInput.normalized);
         }
         else
         {
-            velocity.y += gravityValue * Time.deltaTime;
+            move = Vector3.zero;
+        }
+
+        controller.Move(move * Time.deltaTime * playerSpeed);
+
+        // Changes the height position of the player..
+        if (Input.GetButtonDown("Jump") && groundedPlayer)
+        {
+            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+        }
+
+        playerVelocity.y += gravityValue * Time.deltaTime;
+        controller.Move(playerVelocity * Time.deltaTime);
+
+        // Stamina management code remains unchanged
+        Running();
+    }
+
+    // Create a method for running. 
+    private void Running()
+    {
+        if (Input.GetKey(KeyCode.LeftShift) && staminaManager.CurrentStamina > 0)
+        {
+            isRunning = true;
+            playerSpeed = 8.0f;
+            staminaManager.StaminaDecrease(0.001f);
+        }
+        else
+        {
+            isRunning = false;
+            playerSpeed = 5.0f;
         }
     }
 
-    void Movement(Vector3 move, float speed)
-    {
-        // Run Logic
-        if(Input.GetKey(KeyCode.LeftShift))
-        {
-            speed *= 20;
-            isRuning = true;
-        }
-        if(Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            speed /= 20;
-            isRuning = false;
-        }    
- 
-        controller.Move(move * speed * Time.deltaTime);
-    }
-
-    void Rotation(float horizontal)
-    {
-        // Rotate the player based on horizontal input
-        Quaternion rotation = Quaternion.AngleAxis(horizontal * rotationSpeed * Time.deltaTime, Vector3.up);
-        transform.rotation = transform.rotation * rotation;
-    }
-
-    void Jump()
-    {
-        // Jumping logic
-        if (Input.GetButtonDown("Jump") && isGrounded)
-        {
-            velocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
-        }
-
-        controller.Move(velocity * Time.deltaTime);
-    }
 }
-

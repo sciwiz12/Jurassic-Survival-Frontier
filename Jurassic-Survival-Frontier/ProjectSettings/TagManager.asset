@@ -8,6 +8,7 @@ TagManager:
   - InventoryWindow
   - GhostItem
   - TradingWindow
+  - Bullet
   layers:
   - Default
   - TransparentFX

@@ -8,23 +8,32 @@ public class LightingManager : MonoBehaviour
     [Header("References")]
     [SerializeField] private Light DirectionalLight;
     [SerializeField] private LightingPreset Preset;
+
     [Header("Variables")]
-    [SerializeField, Range(0, 24)] private float TimeOfDay;
+    [SerializeField] public float timerDay = 1;
+    [SerializeField, Range(0, 24)] private float timeOfDay;
+
+    #region PROPERTIES
+
+    private float TimeOfDay {  get { return timeOfDay; } set { timeOfDay = value; } }
+
+    #endregion
+
     public bool isNight;
 
     private void Update()
     {
+        TimeOfDay += Time.deltaTime * timerDay;
+        TimeOfDay %= 24;
+        
         if(Preset == null) return;
-
         if(Application.isPlaying)
         {
-            TimeOfDay += Time.deltaTime;
-            TimeOfDay %= 24;
-            UpdateLighting(TimeOfDay / 24);
+            UpdateLighting(TimeOfDay / 24f);
         }
         else
         {
-            UpdateLighting(TimeOfDay / 24);
+            UpdateLighting(TimeOfDay / 24f);
         }
     }
 
@@ -39,17 +48,14 @@ public class LightingManager : MonoBehaviour
             DirectionalLight.transform.localRotation = Quaternion.Euler(new Vector3((timePercent * 360f) - 90f, 170, 0));
         }
 
-        if (TimeOfDay % 24 >= 5 && TimeOfDay % 24 <= 18)
+        if (timeOfDay % 24 >= 5 && timeOfDay % 24 <= 18)
         {
             isNight = false;
-            Debug.Log("Day");
         }
         else
         {
             isNight=true;
-            Debug.Log("Night");
         }
-
     }
 
     private void OnValidate()
