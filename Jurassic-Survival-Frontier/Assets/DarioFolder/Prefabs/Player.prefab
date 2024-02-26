@@ -107,6 +107,9 @@ GameObject:
   - component: {fileID: 4814035958295946972}
   - component: {fileID: 9081834563178963266}
   - component: {fileID: 2221524072991591190}
+  - component: {fileID: 7789938647665032904}
+  - component: {fileID: 8235870859099382455}
+  - component: {fileID: 1976905184531829265}
   m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
@@ -239,8 +242,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bdebfbbbe9dc104c8e938e17f787be7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bark: {fileID: 11400000, guid: 3f753bf3d95d53a41aef99a4eedb5dd5, type: 2}
   playerSpeed: 8
-  isRuning: 0
+  isRunning: 0
+  hasAte: 0
+  hasDrank: 0
+  maxHunger: 100
+  maxThirst: 100
+  maxHealth: 100
 --- !u!114 &2221524072991591190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,9 +265,55 @@ MonoBehaviour:
   currentStamina: 0
   sleep: 100
   timeAwake: 0
-  staminaCost: 0
-  isActionPerformed: 0
-  isSleeping: 0
+  staminaReductionRate: 0.1
   staminaImage: {fileID: 0}
   staminaRecharge: 2
   accuracy: 0
+  isActionPerformed: 0
+  isSleeping: 0
+--- !u!114 &7789938647665032904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4099223071934954114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88fd276fff95db64188d228dbb9fa035, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthImage: {fileID: 0}
+  bulletDamage: 5
+--- !u!114 &8235870859099382455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4099223071934954114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 883e5660bfcaf6544a3c5e579212a991, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: 0
+  timerPassed: 5
+  hungerBar: {fileID: 0}
+  modifier: 0.5
+--- !u!114 &1976905184531829265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4099223071934954114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38b46aabf23589b48bbfd107020f9522, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: 0
+  timerPassed: 7
+  thirstBar: {fileID: 0}
+  modifier: 1.5

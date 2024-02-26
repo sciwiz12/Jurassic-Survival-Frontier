@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private AudioData bark;
+    [SerializeField] private float playerSpeed = 2.0f;
     private CharacterController controller;
     private Vector3 playerVelocity;
-    private bool groundedPlayer;
-    [SerializeField] private float playerSpeed = 2.0f;
-    private float jumpHeight = 1.0f;
+    private float jumpHeight   = 1.0f;
     private float gravityValue = -9.81f;
+    private bool groundedPlayer;
     public bool isRunning;
     public bool hasAte;
     public bool hasDrank;
@@ -79,6 +80,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             Debug.Log("premuto Q");
+            AudioManager.Instance.PlayEffect(bark);
             staminaManager.StaminaDecrease(staminaManager.StaminaCost = 10);
             staminaManager.isActionPerformed = false;
         }
