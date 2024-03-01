@@ -32,7 +32,7 @@ public class Thirst : MonoBehaviour
         }
     }
 
-    private float DrinkUp(float watering = 15)
+    public float DrinkUp(float watering = 15)
     {
         playerMovement.CurrentThirst += watering;
         return playerMovement.CurrentThirst;

@@ -17,8 +17,6 @@ public class PassiveNPC : MonoBehaviour
     public GameObject inventoryUI; // UI panel for the player's inventory
     private bool playerInRange = false; // Tracks if the player is in range
     private int dialogueIndex = 0; // Tracks the current dialogue
-    public int money = 0; // Money the NPC has
-    public Text moneyText; // Text component to display money
 
     void Awake()
     {
@@ -29,7 +27,6 @@ public class PassiveNPC : MonoBehaviour
     {
         tradingUI.SetActive(false);
         dialogueUI.SetActive(false);
-        moneyText.text = "Money: " + money.ToString();
     }
 
     void Update()

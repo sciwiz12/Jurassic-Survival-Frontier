@@ -8,8 +8,19 @@ public class Item : ScriptableObject
 {
     public string itemName;
     public int value;
+    public int effectiveness;
     public Sprite icon;
     public int quantity = 1; // Default quantity
+    public ItemType type;
+    // create a tooltip variable
+    [TextArea(15, 20)] public string tooltip;
 
-    // Add other item properties here
+    // create an enum of item types
+    public enum ItemType
+    {
+        Food,
+        Medicine,
+        Water,
+        Crafting
+    }
 }

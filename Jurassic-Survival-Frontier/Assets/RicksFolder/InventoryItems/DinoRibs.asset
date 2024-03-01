@@ -14,5 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: DinoRibs
   value: 20
+  effectiveness: 10
   icon: {fileID: 21300000, guid: 8f6e54fdeecf45e489d126e0372c682e, type: 3}
   quantity: 1
+  type: 0
+  tooltip: 

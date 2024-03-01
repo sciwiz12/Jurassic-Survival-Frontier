@@ -12,6 +12,10 @@ public class Inventory : MonoBehaviour
     public Recipe[] recipes;
     public int money = 0;
     public Text moneyText;
+    private Health health;
+    private Hunger hunger;
+    private Thirst thirst;
+    
 
     private bool isInventoryVisible = false;
 
@@ -19,6 +23,10 @@ public class Inventory : MonoBehaviour
     {
         moneyText.text = "Money: " + money.ToString();
         inventoryUI.SetActive(isInventoryVisible);
+        // Get references to the health, hunger, and thirst scripts from the player which has this inventory script as a component.
+        health = GetComponent<Health>();
+        hunger = GetComponent<Hunger>();
+        thirst = GetComponent<Thirst>();
     }
 
     void Update()
@@ -92,6 +100,56 @@ public class Inventory : MonoBehaviour
         // Add output item
         AddItem(recipe.outputItem);
         Debug.Log($"Crafted {recipe.outputItem.itemName}");
+    }
+
+    // create use item method to use items
+    public void UseItem(Item item)
+    {
+        if (itemQuantities.ContainsKey(item))
+        {
+            if (itemQuantities[item] > 0)
+            {
+                // Check if item is Food, Water or Medicine, and call the appropriate method on the player's health, hunger, or thirst script, then remove item from inventory and update UI
+                // Otherwise, log a message that the item cannot be used
+                if (item.type == Item.ItemType.Food)
+                {
+                    hunger.FeedMe(item.effectiveness);
+                    itemQuantities[item]--;
+                    Debug.Log($"Used {item.itemName}");
+                    if (itemQuantities[item] <= 0)
+                    {
+                        itemQuantities.Remove(item);
+                    }
+                    UpdateInventoryUI();
+                }
+                else if (item.type == Item.ItemType.Water)
+                {
+                    thirst.DrinkUp(item.effectiveness);
+                    itemQuantities[item]--;
+                    Debug.Log($"Used {item.itemName}");
+                    if (itemQuantities[item] <= 0)
+                    {
+                        itemQuantities.Remove(item);
+                    }
+                    UpdateInventoryUI();
+                }
+                else if (item.type == Item.ItemType.Medicine)
+                {
+                    health.Heal(item.effectiveness);
+                    itemQuantities[item]--;
+                    Debug.Log($"Used {item.itemName}");
+                    if (itemQuantities[item] <= 0)
+                    {
+                        itemQuantities.Remove(item);
+                    }
+                    UpdateInventoryUI();
+                }
+                else
+                {
+                    Debug.Log("This item cannot be used.");
+                }
+            }
+        }
     }
 
     public void AddMoney(int amount)
@@ -183,5 +241,23 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public void ShowTooltip(Item item, Vector2 position)
+    {
+        // Implement the logic to display the tooltip for the given item at the specified position.
+        if (item != null)
+        {
+            if (item.tooltip != null)
+            {
+                Debug.Log("Showing tooltip for " + item.itemName);
+            }
+        }
+       
+    }
 
+    public void HideTooltip()
+    {
+        // Implement the logic to hide or remove the tooltip from the screen.
+        // This could involve hiding or destroying the UI element used for the tooltip.
+        Debug.Log("Hiding tooltip");
+    }
 }

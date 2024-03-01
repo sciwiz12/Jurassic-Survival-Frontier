@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private CharacterController controller;
-    private Vector3 playerVelocity;
-    private bool groundedPlayer;
+    [SerializeField] private CharacterController controller;
     [SerializeField] private float playerSpeed = 5.0f;
     [SerializeField] private float rotationSpeed = 100f;
-    private Vector3 move;
-    private Quaternion rotation;
-    private float jumpHeight = 1.0f;
+    [SerializeField] private float jumpHeight = 1.0f;
     private float gravityValue = -9.81f;
+    private Vector3 playerVelocity;
     public bool isRunning;
     public bool hasAte;
     public bool hasDrank;
@@ -53,57 +50,74 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        groundedPlayer = controller.isGrounded;
-        if (groundedPlayer && playerVelocity.y < 0)
-        {
-            playerVelocity.y = 0f;
-        }
+        HandleMovementAndRotation();
+        HandleJump();
+        ApplyGravity();
 
+        HandleRunning();
+    }
+
+    private void HandleMovementAndRotation()
+    {
         Vector3 moveInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+
         if (moveInput.magnitude > 0)
         {
-            Vector3 cameraForward = Camera.main.transform.forward;
-            cameraForward.y = 0; // Ensure the movement is only influenced on the XZ plane
-            Quaternion targetRotation = Quaternion.LookRotation(cameraForward) * Quaternion.LookRotation(moveInput);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+            // Calculate the direction to face based on camera's forward and right vectors
+            Vector3 forward = Camera.main.transform.forward;
+            Vector3 right = Camera.main.transform.right;
+            forward.y = 0;
+            right.y = 0;
+            forward.Normalize();
+            right.Normalize();
 
-            // Convert the moveInput vector from local space to world space
-            move = transform.TransformDirection(moveInput.normalized);
+            Vector3 direction = forward * moveInput.z + right * moveInput.x;
+
+            // Only apply rotation if moving forward or if there's significant horizontal input
+            if (moveInput.z > 0 || Mathf.Abs(moveInput.x) > 0.1f)
+            {
+                RotateTowards(direction);
+            }
+
+            // Apply movement in the direction the character is currently facing
+            // This allows backward movement without changing the facing direction
+            controller.Move(transform.forward * moveInput.z * playerSpeed * Time.deltaTime + transform.right * moveInput.x * playerSpeed * Time.deltaTime);
         }
-        else
-        {
-            move = Vector3.zero;
-        }
 
-        controller.Move(move * Time.deltaTime * playerSpeed);
-
-        // Changes the height position of the player..
-        if (Input.GetButtonDown("Jump") && groundedPlayer)
-        {
-            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
-        }
-
-        playerVelocity.y += gravityValue * Time.deltaTime;
-        controller.Move(playerVelocity * Time.deltaTime);
-
-        // Stamina management code remains unchanged
-        Running();
+        isRunning = Input.GetKey(KeyCode.LeftShift) && staminaManager.CurrentStamina > 0;
+        playerSpeed = isRunning ? 8.0f : 5.0f;
+        if (isRunning) staminaManager.StaminaDecrease(0.001f);
     }
 
-    // Create a method for running. 
-    private void Running()
+    private void RotateTowards(Vector3 direction)
     {
-        if (Input.GetKey(KeyCode.LeftShift) && staminaManager.CurrentStamina > 0)
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+    }
+
+    private void HandleJump()
+    {
+        if (controller.isGrounded && Input.GetButtonDown("Jump"))
         {
-            isRunning = true;
-            playerSpeed = 8.0f;
-            staminaManager.StaminaDecrease(0.001f);
-        }
-        else
-        {
-            isRunning = false;
-            playerSpeed = 5.0f;
+            playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
         }
     }
 
+    private void ApplyGravity()
+    {
+        if (!controller.isGrounded)
+        {
+            playerVelocity.y += gravityValue * Time.deltaTime;
+        }
+        /*else if (playerVelocity.y < 0)
+        {
+            playerVelocity.y = 0f;
+        }*/
+        controller.Move(playerVelocity * Time.deltaTime);
+    }
+
+    private void HandleRunning()
+    {
+        // This functionality has been moved into HandleMovementAndRotation for better readability
+    }
 }

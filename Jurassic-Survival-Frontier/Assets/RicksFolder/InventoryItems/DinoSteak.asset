@@ -14,5 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: DinoSteak
   value: 20
+  effectiveness: 10
   icon: {fileID: 21300000, guid: e857c14a31ef25f44a8d2d5cfbc2535b, type: 3}
   quantity: 1
+  type: 0
+  tooltip: 

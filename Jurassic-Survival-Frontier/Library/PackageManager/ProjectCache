@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638444992139152918
-    m_Hash: 3558305919
+      ticks: 638448596803690481
+    m_Hash: 2045536091
   m_LockFileStatus:
     m_FilePath: C:/JurassicSurvivalFrontier/Jurassic-Survival-Frontier/Jurassic-Survival-Frontier/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638444992139168165
-    m_Hash: 230169377
+      ticks: 638448596803745545
+    m_Hash: 3253171730
 m_EmbeddedPackageManifests:
   m_ManifestsStatus:
     C:/JurassicSurvivalFrontier/Jurassic-Survival-Frontier/Jurassic-Survival-Frontier/Packages/GLTFUtility-master/package.json:
@@ -193,8 +193,10 @@ m_ResolvedPackages:
     - 2.1.0-preview.6
     - 2.1.0
     - 2.2.0
+    - 2.3.1
     compatible:
     - 2.2.0
+    - 2.3.1
     recommended: 2.2.0
     deprecated: []
   dependencies: []
@@ -3146,9 +3148,11 @@ m_ResolvedPackages:
     - 3.0.25
     - 3.0.26
     - 3.0.27
+    - 3.0.28
     compatible:
     - 3.0.27
-    recommended: 3.0.27
+    - 3.0.28
+    recommended: 3.0.28
     deprecated: []
   dependencies:
   - name: com.unity.ext.nunit

@@ -14,5 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Herb2
   value: 5
+  effectiveness: 0
   icon: {fileID: 21300000, guid: 36cd86acc2c682b4c88fb4e8cc59c56f, type: 3}
   quantity: 1
+  type: 3
+  tooltip: 

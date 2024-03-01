@@ -27,12 +27,12 @@ public class Hunger : MonoBehaviour
         }
         else if(playerMovement.hasAte) 
         {
-            FeedMe();
+            FeedMe(15);
             timer = 0;
         }
     }
 
-    private float FeedMe(float feed = 15) 
+    public float FeedMe(float feed) 
     {
         playerMovement.CurrentHunger += feed;
         return playerMovement.CurrentHunger;

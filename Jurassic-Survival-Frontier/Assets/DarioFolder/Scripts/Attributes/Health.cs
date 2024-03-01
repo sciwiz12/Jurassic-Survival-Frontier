@@ -38,4 +38,10 @@ public class Health : MonoBehaviour
         playerMovement.CurrentHealth -= damage;
         return playerMovement.CurrentHealth;
     }
+
+    public float Heal(float healing)
+    {
+        playerMovement.CurrentHealth += healing;
+        return playerMovement.CurrentHealth;
+    }
 }

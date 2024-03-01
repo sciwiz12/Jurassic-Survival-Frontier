@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class InventorySlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IDropHandler
+public class InventorySlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IDropHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public Item item; // The item this slot represents
     public Text quantityText; // Assign in the inspector
@@ -147,53 +147,27 @@ public class InventorySlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         CleanupGhostItem();
         CleanupAllGhostItems();
     }
-    /*public void OnDrop(PointerEventData eventData)
+
+    public void OnPointerEnter(PointerEventData eventData)
     {
-        GameObject TradingUIWindow = GameObject.FindGameObjectWithTag("TradingWindow");
-        InventorySlot originalSlot = currentlyDraggingSlot; // Slot being dragged from
-        // Check if the trading window is active
-
-        if(TradingUIWindow == null)
+        if (item != null)
         {
-            if (originalSlot != null && originalSlot.item != null)
-            {
-                inventory.CombineItems(originalSlot.item, this.item);
-            }
-            else
-            {
-                Debug.LogError("Error during dropping: Original slot is null or doesn't contain an item.");
-            }
+            inventory.ShowTooltip(item, transform.position);
         }
-        else
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        inventory.HideTooltip();
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (item != null)
         {
-            
-            if (originalSlot != null && originalSlot.item != null)
-            {
-                bool isBuying = !this.isInventorySlot; // Buying if dragged to a non-inventory slot (NPC to Player)
-
-                // Execute Buy or Sell Logic
-                if (isBuying)
-                {
-                    Debug.Log($"Buying {originalSlot.item.itemName}");
-                    // Example Buy Logic
-                    inventory.AddItem(originalSlot.item); // Remove item from player's inventory
-                    inventory.RemoveMoney(originalSlot.item.value); // Add money to player's inventory
-                }
-                else
-                {
-                    Debug.Log($"Selling {originalSlot.item.itemName}");
-                    // Example Sell Logic
-                    inventory.RemoveItem(originalSlot.item); // Add item to player's inventory
-                    inventory.AddMoney(originalSlot.item.value); // Deduct money from player's inventory
-                }
-            }
+            inventory.UseItem(item);
         }
-        CleanupGhostItem(); // Cleanup any ghost item
-        CleanupAllGhostItems(); // Cleanup any other ghost items
-    }*/
-
-
-
+    }
 
     // Update the slot with item information
     public void UpdateSlot(Item newItem, int quantity)
@@ -212,6 +186,8 @@ public class InventorySlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         itemImage.sprite = newItem.icon; // Update the item image
         quantityText.text = newItem.itemName + (quantity > 1 ? " x" + quantity.ToString() : ""); // Update the quantity display
     }
+
+
 
 
 }
