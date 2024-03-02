@@ -13,7 +13,10 @@ public class PlayerMovement : MonoBehaviour
     public bool isRunning;
     public bool hasAte;
     public bool hasDrank;
-    Animator anim;
+    private Animator anim;
+    // Create a player dead event
+    public delegate void PlayerDead(bool isDead);
+    public static event PlayerDead OnPlayerDead;
 
     #region STATES
     float velocityState;
@@ -146,5 +149,23 @@ public class PlayerMovement : MonoBehaviour
     {
         state = newState;
         anim.SetFloat(parameter, state);
+    }
+
+    // Create a TakeDamage method
+    public void TakeDamage(float damage)
+    {
+        currentHealth -= damage;
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    // Create a Die method that prints to the console when the player dies
+    public void Die()
+    {
+        // Call the OnPlayerDead event
+        OnPlayerDead?.Invoke(true);
+        Debug.Log("Player is dead!");
     }
 }

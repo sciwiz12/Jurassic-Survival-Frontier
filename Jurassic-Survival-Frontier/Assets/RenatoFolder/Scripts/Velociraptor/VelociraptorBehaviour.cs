@@ -20,11 +20,21 @@ public class VelociraptorBehaviour : MonoBehaviour
     [SerializeField]
     private float distanceToAttack = 4f;
     [SerializeField]
-    private float speed = 10f;
+    //private float speed = 10f;
     // States
     private float idle = 0f;
-    private float walk = 0.5f;
+    //private float walk = 0.5f;
     private float run = 1f;
+
+    // Player state
+    private bool isPlayerDead = false;
+
+
+    // subscribe to player dead event
+    private void OnEnable()
+    {
+        PlayerMovement.OnPlayerDead += SetPlayerDead;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -39,7 +49,10 @@ public class VelociraptorBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Chase();
+        if (!isPlayerDead)
+        {
+            Chase();
+        }
     }
 
     void Chase()
@@ -102,5 +115,10 @@ public class VelociraptorBehaviour : MonoBehaviour
     void ResetAttackTrigger()
     {
         animator.ResetTrigger("Attack");
+    }
+
+    public void SetPlayerDead(bool isDead)
+    {
+        isPlayerDead = isDead;
     }
 }

@@ -395,6 +395,7 @@
 "Assets/RicksFolder/RicksScripts/PivotController.cs"
 "Assets/RicksFolder/RicksScripts/PlayerShoot.cs"
 "Assets/RicksFolder/RicksScripts/Projectile.cs"
+"Assets/RicksFolder/RicksScripts/RaptorAttack.cs"
 "Assets/RicksFolder/RicksScripts/Recipe.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark01.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark01_UGUI.cs"
