@@ -380,6 +380,7 @@
 "Assets/RenatoFolder/Scripts/EnemyUtils.cs"
 "Assets/RenatoFolder/Scripts/PlayerMovement.cs"
 "Assets/RenatoFolder/Scripts/RecoveryBehaviour.cs"
+"Assets/RenatoFolder/Scripts/StaminaBarBehaviour.cs"
 "Assets/RenatoFolder/Scripts/Velociraptor/Detection.cs"
 "Assets/RenatoFolder/Scripts/Velociraptor/VelociraptorBehaviour.cs"
 "Assets/RicksFolder/RicksScripts/CameraFollow.cs"

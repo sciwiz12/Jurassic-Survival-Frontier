@@ -13,6 +13,14 @@ public class PlayerMovement : MonoBehaviour
     public bool isRunning;
     public bool hasAte;
     public bool hasDrank;
+    Animator anim;
+
+    #region STATES
+    float velocityState;
+    float idleState = 0f;
+    float walkState = 0.5f;
+    float runState = 1f;
+    #endregion
 
     #region ATTRIBUTES
     public float maxHunger = 100f;
@@ -46,6 +54,10 @@ public class PlayerMovement : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         staminaManager = FindObjectOfType<StaminaManager>();
+        anim = GetComponent<Animator>();
+
+        velocityState = idleState;
+        anim.SetFloat("walk", velocityState);
     }
 
     void Update()
@@ -53,8 +65,6 @@ public class PlayerMovement : MonoBehaviour
         HandleMovementAndRotation();
         HandleJump();
         ApplyGravity();
-
-        HandleRunning();
     }
 
     private void HandleMovementAndRotation()
@@ -82,6 +92,20 @@ public class PlayerMovement : MonoBehaviour
             // Apply movement in the direction the character is currently facing
             // This allows backward movement without changing the facing direction
             controller.Move(transform.forward * moveInput.z * playerSpeed * Time.deltaTime + transform.right * moveInput.x * playerSpeed * Time.deltaTime);
+
+            // Set velocity state based on movement speed
+            if (isRunning)
+            {
+                SetVelocityState(anim, "velocity", velocityState, runState);
+            }
+            else if (moveInput.magnitude < .5f)
+            {
+                SetVelocityState(anim, "velocity", velocityState, idleState); 
+            }
+            else
+            {
+                SetVelocityState(anim, "velocity", velocityState, walkState);
+            }
         }
 
         isRunning = Input.GetKey(KeyCode.LeftShift) && staminaManager.CurrentStamina > 0;
@@ -100,6 +124,7 @@ public class PlayerMovement : MonoBehaviour
         if (controller.isGrounded && Input.GetButtonDown("Jump"))
         {
             playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+            anim.SetBool("jump", true);
         }
     }
 
@@ -108,6 +133,7 @@ public class PlayerMovement : MonoBehaviour
         if (!controller.isGrounded)
         {
             playerVelocity.y += gravityValue * Time.deltaTime;
+            anim.SetBool("jump", false);
         }
         /*else if (playerVelocity.y < 0)
         {
@@ -116,8 +142,9 @@ public class PlayerMovement : MonoBehaviour
         controller.Move(playerVelocity * Time.deltaTime);
     }
 
-    private void HandleRunning()
+    void SetVelocityState(Animator anim, string parameter, float state, float newState)
     {
-        // This functionality has been moved into HandleMovementAndRotation for better readability
+        state = newState;
+        anim.SetFloat(parameter, state);
     }
 }

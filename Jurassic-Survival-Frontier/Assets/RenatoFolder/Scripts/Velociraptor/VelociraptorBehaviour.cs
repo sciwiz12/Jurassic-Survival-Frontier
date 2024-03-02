@@ -14,12 +14,13 @@ public class VelociraptorBehaviour : MonoBehaviour
     private Vector3 beforeAttack;
 
     // Values
-    [SerializeField]
-    private float velocity = 0f;
+    private float velocityState = 0f;
     [SerializeField]
     private float speedRotation = 100.0f;
     [SerializeField]
     private float distanceToAttack = 4f;
+    [SerializeField]
+    private float speed = 10f;
     // States
     private float idle = 0f;
     private float walk = 0.5f;
@@ -71,18 +72,18 @@ public class VelociraptorBehaviour : MonoBehaviour
 
     void Idle()
     {
-        velocity = idle;
-        animator.SetFloat(velocityHash, velocity);
+        velocityState = idle;
+        animator.SetFloat(velocityHash, velocityState);
     }
 
     void Run()
     {
         //animator.ResetTrigger("Aim");
         //animator.ResetTrigger("Attack");
-        Vector3 objective = (detection.target.position - t.position).normalized;
+        Vector3 objective = detection.target.position;
         navAgent.SetDestination(objective);
-        velocity = run;
-        animator.SetFloat(velocityHash, velocity);
+        velocityState = run;
+        animator.SetFloat(velocityHash, velocityState);
     }
 
     void Aim()
