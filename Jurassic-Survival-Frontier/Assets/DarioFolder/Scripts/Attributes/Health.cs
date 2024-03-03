@@ -18,11 +18,6 @@ public class Health : MonoBehaviour
     private void Update()
     {
         healthImage.fillAmount = playerMovement.CurrentHealth / playerMovement.maxHealth;
-
-        if (Input.GetKeyUp(KeyCode.Escape))
-        {
-            TakeDamage(bulletDamage);
-        }
     }
 
     private void OnTriggerEnter(Collider other)

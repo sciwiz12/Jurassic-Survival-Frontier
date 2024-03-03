@@ -6,6 +6,7 @@ public class EnemyHealth : MonoBehaviour
 {
     public int maxHealth = 100;
     private int currentHealth;
+    public GameObject pickupItem;
 
     void Start()
     {
@@ -29,6 +30,8 @@ public class EnemyHealth : MonoBehaviour
 
     void Die()
     {
+        // Instantiate pickup item upon death here
+        Instantiate(pickupItem, transform.position, transform.rotation);
         Destroy(gameObject); // Destroy the enemy GameObject
     }
 }

@@ -28,10 +28,6 @@ public class InventorySlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         if (isInventorySlot)
         {
             inventoryWindowPanel = GameObject.FindGameObjectWithTag("InventoryWindow").transform;
-            if (inventoryWindowPanel == null)
-            {
-                Debug.LogError("Inventory window panel not found. Please ensure it is tagged correctly.");
-            }
         }
         else
         {

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StaminaBarBehaviour : MonoBehaviour
 {
@@ -9,7 +9,7 @@ public class StaminaBarBehaviour : MonoBehaviour
     private PlayerMovement playerMovement;
 
     // Interface
-    [SerializeField] private Image StaminaRunBar;
+    [SerializeField] private UnityEngine.UI.Image StaminaRunBar;
     //[SerializeField] private Image HungryBar;
     [SerializeField] private float StaminaBarValue = 100;
     [SerializeField] private float MaxStamina;
